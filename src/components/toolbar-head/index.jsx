@@ -42,11 +42,7 @@ const ToolBarHeader = (props) => {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                 MOBOFERTAS - ESTABELECIMENTO
           </Typography>
-            <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                    <Notifications />
-                </Badge>
-            </IconButton>
+            
         </Toolbar>
     )
 }

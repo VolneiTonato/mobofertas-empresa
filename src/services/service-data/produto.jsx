@@ -62,10 +62,10 @@ export const ProdutoApi = ({
             }
         })
     },
-    saveQRCodeNFCE: async(content) => {
+    saveQRCodeNFCE: async(data = {}) => {
         return new Promise(async (resolve, reject) => {
             try{
-                await api.post('/cupom-nfce/save', {linkNfce : content})
+                await api.post('/cupom-nfce/save', {linkNfce : data.link, dataValidade: data.dataValidade})
 
                 resolve(true)
             }catch(err){

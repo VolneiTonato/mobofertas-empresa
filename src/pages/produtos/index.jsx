@@ -21,6 +21,7 @@ const TabPanel = (props) => {
 
     return (
         <Typography
+            style={{padding:0}}
             component="div"
             role="tabpanel"
             hidden={value !== index}
@@ -74,7 +75,7 @@ const PageProduct = (props) => {
 
             <TitlePage title="Importação de Produtos" />
 
-            <Grid container spacing={3}>
+            <Grid container spacing={0}> 
                 <Grid style={{ margin: 'auto' }} item xs={12}>
 
 

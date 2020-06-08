@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { Box, Button } from '@material-ui/core'
+import React, { Fragment, useEffect, useState, useRef } from 'react'
+import { Box, Button, TextField, Grid } from '@material-ui/core'
 import { Decoder } from '@nuintun/qrcode'
 import { ProdutoApi } from '../../../../services/service-data/produto'
 import { useMessageContext } from '../../../../providers/Message'
@@ -12,6 +12,10 @@ const UploadFileQRCodeAndCaptureURL = () => {
     const [img, setImg] = useState()
     const [hasImage, setHasImage] = useState(false)
     const { openMessage } = useMessageContext()
+    const [dataValidade, setDataValidade] = useState(null)
+
+
+    const inputFileRef = useRef()
 
     useEffect(() => {
         setImg(new Image())
@@ -21,6 +25,7 @@ const UploadFileQRCodeAndCaptureURL = () => {
 
 
         return () => {
+            setDataValidade(null)
             setImg(null)
             setCanvas(null)
             setContextCanvas(null)
@@ -28,6 +33,11 @@ const UploadFileQRCodeAndCaptureURL = () => {
             setHasImage(false)
         }
     }, [])
+
+    const resetCancas = () => {
+        contextCanvas.clearRect(0, 0, canvas.width, canvas.height)
+        inputFileRef.current.value = ''
+    }
 
     const markFinderPattern = (x, y, moduleSize) => {
         contextCanvas.fillStyle = '#00ff00';
@@ -95,9 +105,15 @@ const UploadFileQRCodeAndCaptureURL = () => {
         img.src = src
     }
 
-    const handlerDecode = async () => {
+    const handlerDecode = async (e) => {
+        e.preventDefault()
 
         try {
+
+            if(!dataValidade){
+                openMessage({message: 'Data de Validade obrigatória para listar no site!', type:'error'})
+                return false
+            }
 
             if (!hasImage)
                 return false
@@ -108,7 +124,7 @@ const UploadFileQRCodeAndCaptureURL = () => {
             if (result) {
                 markQRCodeArea(result.location, result.version)
 
-                await ProdutoApi.saveQRCodeNFCE(result?.data)
+                await ProdutoApi.saveQRCodeNFCE({link: result?.data, dataValidade: dataValidade})
 
                 openMessage({ message: 'QRCode enviado com sucesso! Os proudos serão cadastrados em breve.' })
 
@@ -116,15 +132,24 @@ const UploadFileQRCodeAndCaptureURL = () => {
                 throw new Error('Erro ao decodificar imagem, tente com outra!')
             }
 
+            resetCancas()
+
         } catch (err) {
             openMessage({ message: err.toString(), type: 'error' })
+            resetCancas()
         }
 
 
     }
 
+    const handlerOnChangeData = (e) => {
+        setDataValidade(e.target.value)
+    }
+
     const handlerChangeFile = (e) => {
         const { files } = e.target
+
+
 
         const fileReader = new FileReader()
 
@@ -140,39 +165,72 @@ const UploadFileQRCodeAndCaptureURL = () => {
 
     return (
         <Fragment>
-            <Box component="div" alignContent="center" textAlign="center">
-                <input
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    id="contained-button-file"
-                    multiple
-                    name="file"
-                    type="file"
-                    onChange={handlerChangeFile}
-                />
+            <Grid container justify="center" alignContent="center">
 
-                <Box component="span" marginRight={1}>
-                    <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" startIcon={<CloudUpload />} component="span">
-                            Selecionar Arquivo
-                    </Button>
-                    </label>
-                </Box>
+                <Grid item xs={12} sm={6}>
 
 
-                <Box component="span">
-                    <Button onClick={handlerDecode} color="primary" variant="contained">
-                        Ler QRCode e Cadastrar
-                </Button>
-                </Box>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="dataValidade"
+                        type="date"
+                        id="data-validade"
+                        autoComplete="off"
+                        onChange={handlerOnChangeData}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </Grid>
 
-            </Box>
 
-            <Box component="div" alignContent="center" textAlign="center" marginTop={1} boxSizing={2} xs={6}>
-                <canvas style={{ maxWidth: '400px', maxHeight: '400px', width: '100%', height: '100%' }} id="decode-canvas"></canvas>
-            </Box>
 
-            
+                <Grid item xs={12}>
+
+                    <Box component="div" textAlign="center">
+
+                        <input
+                            ref={inputFileRef}
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="contained-button-file"
+                            multiple
+                            name="file"
+                            type="file"
+                            onChange={handlerChangeFile}
+                        />
+
+                        <Box component="span" marginRight={1}>
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" color="primary" startIcon={<CloudUpload />} component="span">{'Selecionar Arquivo'}</Button>
+                            </label>
+                        </Box>
+
+
+                        <Box component="span">
+                            <Button onClick={handlerDecode} color="primary" variant="contained">
+                                Ler QRCode e Cadastrar
+                            </Button>
+                        </Box>
+
+
+                    </Box>
+
+
+
+                    <Box component="div" alignContent="center" textAlign="center" marginTop={1} boxSizing={2} xs={6}>
+                        <canvas style={{ maxWidth: '400px', maxHeight: '400px', width: '100%', height: '100%' }} id="decode-canvas"></canvas>
+                    </Box>
+
+
+                </Grid>
+
+            </Grid>
+
+
 
         </Fragment>
     )

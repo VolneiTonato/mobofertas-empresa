@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react'
 import { BrowserQRCodeReader } from '@zxing/library'
-import { Grid, Box, Button } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import { useMessageContext } from '../../../../providers/Message'
 import { ProdutoApi } from '../../../../services/service-data/produto'
 import { PhotoCamera, Pause } from '@material-ui/icons'
@@ -22,7 +22,7 @@ const CaptureVideoQrCode = () => {
     }
 
     const rejectQRCode = (err) => {
-        if(err.toString() == 'NotFoundException: Video stream has ended before any code could be detected.')
+        if(err.toString() === 'NotFoundException: Video stream has ended before any code could be detected.')
             return null
         openMessage({ message: err.toString(), type: 'error' })
     }

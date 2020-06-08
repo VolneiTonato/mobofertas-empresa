@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import Layout from '../components/Layout'
 import HomePage from '../pages/home'
 import ProdutoPage from '../pages/produtos'
@@ -16,6 +16,7 @@ const AppRouter = (props) => {
                     <Route exact path="/" component={HomePage} />
                     <Route exact path="/app" component={HomePage} />
                     <Route exact path="/app/home" component={HomePage} />
+                    <Route exact path="/app/site" render={e => document.location.href = `${process.env.REACT_APP_URL_SITE}` } />
                     <Route exact path="/app/produto" render={propsRouter => <ProdutoPage {...props} {...propsRouter} />} />} />
                     <Route exact path="/app/tabloide" render={propsRouter => <TabloidePage {...props} {...propsRouter} />} />} />
                     <Route exact path="/logout" render={e => signOut()} />

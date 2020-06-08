@@ -8,7 +8,7 @@ const ListItem = () => {
 
     const fetchProdutos = async (query) => {
 
-        let { count, response, page } = await ProdutoApi.list({ page: query.page + 1, limit: query.pageSize })
+        let { count, response, page } = await ProdutoApi.list('', { page: query.page + 1, limit: query.pageSize })
 
         return {
             data: response,

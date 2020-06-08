@@ -58,7 +58,6 @@ const UploadButtons = (props) => {
                 openMessage({message:'Imagem cadastrada com sucesso! Informe a data de validade!'})
             }).catch(err => {
                 openMessage({message: err.toString(), type:'error'})
-            }).finally(() => {
                 setButtonDisabled(false)
             })
 

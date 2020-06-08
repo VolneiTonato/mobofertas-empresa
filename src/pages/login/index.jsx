@@ -148,10 +148,11 @@ const PageLogin = (props) => {
                         autoComplete="off"
                         onChange={onChange}
                     />
+                    {/*
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
-                    />
+                    />*/}
                     <Button
                         type="submit"
                         disabled={buttonDisabled}
@@ -162,12 +163,15 @@ const PageLogin = (props) => {
                     >
                         Entrar
           </Button>
+                    
                     <Grid container>
+                        
                         <Grid item xs>
                             <Link href="#" variant="body2">
                                 Esqueceu sua senha?
               </Link>
                         </Grid>
+                        
                         <Grid item>
                             <Link href="#" variant="body2">
                                 {"Cadastre-se"}

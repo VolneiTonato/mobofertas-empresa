@@ -14,12 +14,6 @@ const MenuListItens = (props) => {
     
     return (
         <Fragment>
-            <ListItem button component={Link} to="/app/home">
-                <ListItemIcon>
-                    <HomeOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary="Inicío" />
-            </ListItem>
             <ListItem button component={Link} to="/app/produto">
                 <ListItemIcon>
                     <ShoppingCartIcon />
@@ -31,6 +25,12 @@ const MenuListItens = (props) => {
                     <AddPhotoAlternate />
                 </ListItemIcon>
                 <ListItemText primary="Tabloides" />
+            </ListItem>
+            <ListItem button component={Link} to="/app/site">
+                <ListItemIcon>
+                    <HomeOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="ir para o site" />
             </ListItem>
         </Fragment>
     )
