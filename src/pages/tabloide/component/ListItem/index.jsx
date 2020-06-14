@@ -34,7 +34,7 @@ export default () => {
 
     return (
         <Fragment>
-            {tabloides.length > 0 ? (
+            {tabloides?.length > 0 ? (
                 <Fragment>
                     <Grid container spacing={3} >
                         {tabloides.map(item =>
