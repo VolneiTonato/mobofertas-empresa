@@ -9,4 +9,11 @@ Foi abordado duas formas de cadastro para o cadastro de produtos.
 
 _É possível também ler o qrcode da webcan._
 
+O site usa uma api referente ao projeto: [Mobofertas-api](https://github.com/VolneiTonato/mobofertas-api)
+
+Para visualizar o site onde listará os estabelecimentos e suas promoções,acesse o projeto: [Mobofertas](https://github.com/VolneiTonato/mobofertas)
+
+---
+_Veja o funcionamento com o gif abaixo:_
+
 ![Cadastro](./assets/cadastro.gif)
